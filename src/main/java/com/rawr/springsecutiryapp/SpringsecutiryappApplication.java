@@ -1,0 +1,13 @@
+package com.rawr.springsecutiryapp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringsecutiryappApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringsecutiryappApplication.class, args);
+	}
+
+}
