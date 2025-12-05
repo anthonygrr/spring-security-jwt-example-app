@@ -1,0 +1,17 @@
+services:
+  db-security-app:
+    image: postgres:18
+    container_name: db_security_app
+    restart: always
+    environment:
+      POSTGRES_DB: db_security
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: sysadmin1234
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persistencia correcta en PG 17
+      - ./postgres:/var/lib/postgresql
+      # Scripts de inicialización
+      #- ./db/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+      #- ./db/insert_data.sql:/docker-entrypoint-initdb.d/insert_data.sql
