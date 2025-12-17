@@ -6,19 +6,23 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.ArrayList;
@@ -26,17 +30,47 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity //Optional
+@EnableMethodSecurity //Optional(VALIDACION A NIVLE DE METODO)
 public class SecurityConfig {
 
-
+// Puntero: 1h 2 min
+//    SESCURITY FILTER SIN ANOTACIONES(RECOMENDADO)
 // El SecurityFilterChain es el primer metodo que debemos implementar
 //    Aqui defininmos toda la cadena de filtros personalizada
 //el metodo SecurityFilterchain funciona con el patron `builder`
    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity.build();
+        return httpSecurity
+//                Deshabilitamos lo siguiente csrf(util para Rest sin formularios html)
+                .csrf(csrf -> csrf.disable())
+//                Logueo basico(usuario y password sin encriptar)
+                .httpBasic(Customizer.withDefaults())
+//                Trabajar son sesiones sin estado: no vamos a guardar sesion en memoria(la sesion la delegaremos a la duracion del JWT)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                PERMISOS
+                .authorizeHttpRequests(http -> {
+//                    Configurar los Endpoints publicos
+                    http.requestMatchers(HttpMethod.GET, "/auth/hello").permitAll();
+//                    Configurar endpoints privados
+                    http.requestMatchers(HttpMethod.GET, "/auth/hello-secured").hasAuthority("READ");
+
+//              Configurar el resto de endpoints =  No especificados
+//                    Deny all= denegar lo demas / authenticated = authenticarse
+                    http.anyRequest().denyAll();
+                })
+                .build();
     }
+
+
+// SPRING SECURITY FILTER CHAIN CON ANOTACIONES
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+//        return httpSecurity
+//                .csrf(csrf -> csrf.disable())
+//                .httpBasic(Customizer.withDefaults())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .build();
+//    }
 
 // El segundo metodo es el AuthenticationManager(depende de AuthenticationConfdiguration)
 //    Se encarga de autenticar al usuario
@@ -76,7 +110,7 @@ public class SecurityConfig {
         userDetailsList.add(User.withUsername("andrea")
                 .password("12345")
                 .roles("USER")
-                .authorities("READ")
+                .authorities("READ", "WRITE")
                 .build());
 
         return new InMemoryUserDetailsManager(userDetailsList);
