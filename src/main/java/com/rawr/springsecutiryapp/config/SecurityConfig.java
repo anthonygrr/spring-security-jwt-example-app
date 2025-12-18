@@ -52,8 +52,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
 //                    Configurar los Endpoints publicos
                     http.requestMatchers(HttpMethod.GET, "/auth/hello").permitAll();
-//                    Configurar endpoints privados
+//                    Configurar endpoints privados con permisos: hasAuthority(1 permiso), hasAnyAuthority(multiples permisos)
                     http.requestMatchers(HttpMethod.GET, "/auth/hello-secured").hasAuthority("READ");
+                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyAuthority("READ", "CREATE");
+                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAuthority("REFACTOR");
+
+//                    VALIDANDO ENDPOINTS PRIVADOS MEDIANTE ROL
+                  //  http.requestMatchers(HttpMethod.POST, "/auth/post").hasRole("ADMIN");
+                   // http.requestMatchers(HttpMethod.PATCH, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
 
 //              Configurar el resto de endpoints =  No especificados
 //                    Deny all= denegar lo demas / authenticated = authenticarse

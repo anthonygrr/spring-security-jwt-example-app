@@ -30,11 +30,13 @@ public class TestAuthController {
 
 //    Nuevos endpoints
     @GetMapping("/get")
+    //    @PreAuthorize("hasAuthority('READ')")
     public String helloGet(){
         return "Hello World - GET";
     }
 
     @PostMapping("/post")
+    //    @PreAuthorize("hasAuthority('CREATE') or hasAuthority('READ')")
     public String helloPost(){
         return "Hello World - POST";
     }
@@ -50,6 +52,7 @@ public class TestAuthController {
     }
 
     @PatchMapping("/patch")
+    //    @PreAuthorize("hasAuthority('REFACTOR')")
     public String helloPatch(){
         return "Hello World - PATCH";
     }
