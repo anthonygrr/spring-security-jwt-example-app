@@ -1,6 +1,7 @@
 package com.rawr.springsecutiryapp.config;
 
 
+import com.rawr.springsecutiryapp.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -84,14 +85,15 @@ public class SecurityConfig {
 //    El tercer metodo es el Autenteication provider(podemos reemplazarlo por OAUTH, Keycloak)
 //    Para este caso usamos DAo que es el mas basico(loguear por medio de  Ususario contrasenia en DB)
 //     OCUPA dos componentes: PasswordEncoder y UserDetailsService
+//    Implementando UserDetailsService propio
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 //        EL DAO depende de un password encoder, de momento sera null
         provider.setPasswordEncoder(passwordEncoder());
 //       tambien depende de UserDetailsService, de momento sera null
 //        provider.setUserDetailsService(userDetailsService());
-        provider.setUserDetailsService(null);
+        provider.setUserDetailsService(userDetailsService);
         return  provider;
     }
 
@@ -116,6 +118,8 @@ public class SecurityConfig {
 //
 //        return new InMemoryUserDetailsManager(userDetailsList);
 //    }
+
+
 
 //    Quinto metodo: apssword Encoder
 //    Debe ser BCrypt
