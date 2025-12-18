@@ -65,7 +65,8 @@ public class SpringsecutiryappApplication {
 //            CREATE USERS
             UserEntity userTony = UserEntity.builder()
                     .username("tony")
-                    .password("1234")
+//                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -75,7 +76,8 @@ public class SpringsecutiryappApplication {
 
             UserEntity userSonya = UserEntity.builder()
                     .username("sonya")
-                    .password("123456")
+//                    .password("123456")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)
@@ -85,7 +87,8 @@ public class SpringsecutiryappApplication {
 
             UserEntity userAndrea = UserEntity.builder()
                     .username("andy")
-                    .password("1234")
+//                    .password("1234")
+                    .password("$2a$10$cMY29RPYoIHMJSuwRfoD3eQxU1J5Rww4VnNOUOAEPqCBshkNfrEf6")
                     .isEnabled(true)
                     .accountNoExpired(true)
                     .accountNoLocked(true)

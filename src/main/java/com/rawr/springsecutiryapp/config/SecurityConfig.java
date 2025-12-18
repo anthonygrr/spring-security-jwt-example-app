@@ -20,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -127,14 +128,17 @@ public class SecurityConfig {
 
 
 
-//    Quinto metodo: apssword Encoder
+//    Quinto metodo: password Encoder
 //    Debe ser BCrypt
     @Bean
     public PasswordEncoder passwordEncoder(){
-//        SOlo para pruebas desactivamos el password encoder
-//        Deprecated
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
+
+//    Solo para encriptar de prueba
+//    public static void main(String[] args) {
+//        System.out.println(new BCryptPasswordEncoder().encode("1234"));
+//    }
 
 }
 
