@@ -90,31 +90,32 @@ public class SecurityConfig {
 //        EL DAO depende de un password encoder, de momento sera null
         provider.setPasswordEncoder(passwordEncoder());
 //       tambien depende de UserDetailsService, de momento sera null
-        provider.setUserDetailsService(userDetailsService());
+//        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(null);
         return  provider;
     }
 
 // 4to Metodo USerDetailsService que se encarga de Ir A DB a recuperar el usuario
 // para datos de prueba creeamos una lista de usuarios de prueba
-    @Bean
-    public UserDetailsService userDetailsService(){
-
-        List<UserDetails> userDetailsList = new ArrayList<>();
-
-        userDetailsList.add(User.withUsername("tony")
-                .password("1234")
-                .roles("ADMIN")
-                .authorities("READ", "WRITE", "CREATE")
-                .build());
-
-        userDetailsList.add(User.withUsername("andrea")
-                .password("12345")
-                .roles("USER")
-                .authorities("READ", "WRITE")
-                .build());
-
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(){
+//
+//        List<UserDetails> userDetailsList = new ArrayList<>();
+//
+//        userDetailsList.add(User.withUsername("tony")
+//                .password("1234")
+//                .roles("ADMIN")
+//                .authorities("READ", "WRITE", "CREATE")
+//                .build());
+//
+//        userDetailsList.add(User.withUsername("andrea")
+//                .password("12345")
+//                .roles("USER")
+//                .authorities("READ", "WRITE")
+//                .build());
+//
+//        return new InMemoryUserDetailsManager(userDetailsList);
+//    }
 
 //    Quinto metodo: apssword Encoder
 //    Debe ser BCrypt
