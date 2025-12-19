@@ -20,7 +20,6 @@ public class SpringsecutiryappApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringsecutiryappApplication.class, args);
 	}
-//Pointer : 1:32
     @Bean
     CommandLineRunner init(UserRepository userRepository){
         return args -> {

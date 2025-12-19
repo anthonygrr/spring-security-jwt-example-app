@@ -32,7 +32,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity //Optional(VALIDACION A NIVLE DE METODO)
+//@EnableMethodSecurity //Optional(VALIDACION A NIVLE DE METODO)
 public class SecurityConfig {
 
 // Puntero: 1h 2 min
@@ -55,12 +55,14 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.GET, "/auth/hello").permitAll();
 //                    Configurar endpoints privados con permisos: hasAuthority(1 permiso), hasAnyAuthority(multiples permisos)
                     http.requestMatchers(HttpMethod.GET, "/auth/hello-secured").hasAuthority("READ");
-                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyAuthority("READ", "CREATE");
-                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAuthority("REFACTOR");
+                   // http.requestMatchers(HttpMethod.POST, "/auth/post").hasAnyAuthority("READ", "CREATE");
+                  //  http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAuthority("REFACTOR");
 
 //                    VALIDANDO ENDPOINTS PRIVADOS MEDIANTE ROL
-                  //  http.requestMatchers(HttpMethod.POST, "/auth/post").hasRole("ADMIN");
-                   // http.requestMatchers(HttpMethod.PATCH, "/auth/post").hasAnyRole("ADMIN", "DEVELOPER");
+                   http.requestMatchers(HttpMethod.GET, "/auth/get").hasAnyRole("USER", "ADMIN", "DEVELOPER");
+                    http.requestMatchers(HttpMethod.POST, "/auth/post").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/auth/delete").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PATCH, "/auth/patch").hasAnyRole("ADMIN", "DEVELOPER");
 
 //              Configurar el resto de endpoints =  No especificados
 //                    Deny all= denegar lo demas / authenticated = authenticarse
