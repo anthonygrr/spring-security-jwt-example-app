@@ -34,7 +34,8 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
 //        Si el token viene lo validamos y agregamos al usuario al context
-        if(jwtToken != null){ //bearer asdfasdf
+//        Validamos el token que no sea null y que ademas empiece con "Bearer "
+        if(jwtToken != null && jwtToken.startsWith("Bearer ")){ //bearer asdfasdf
             jwtToken = jwtToken.substring(7); // eliminamos "bearer " del token
 
 //            Validamos el Token
@@ -51,7 +52,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
 //            Establecer el usuario con sus datos en el context de spring
 //            Extraer el context de spring security
-            SecurityContext context = SecurityContextHolder.getContext();
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
 
 //            Creamos un objeto de tipo authentication que contiene
 //            usuario, sin contrasenia(por seguridad) y sus permisos
