@@ -5,7 +5,6 @@ import com.rawr.springsecutiryapp.dto.AuthResponse;
 import com.rawr.springsecutiryapp.entity.UserEntity;
 import com.rawr.springsecutiryapp.repository.UserRepository;
 import com.rawr.springsecutiryapp.util.JwtUtils;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -82,7 +81,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Incorrect Password");
         }
 
-        return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
     }
 
     //    Metodo De Login
