@@ -42,7 +42,7 @@ public class JwtUtils {
                 .map(GrantedAuthority::getAuthority)
 //                .map(grantedAuthority -> grantedAuthority.getAuthority()) // version 2
 //                Collectors.Joinint() toma todos los authorities, los junta y los separa por comas
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(","));
 
 //        Generar TOKEN
         String jwtToken = JWT.create()
@@ -67,10 +67,10 @@ public class JwtUtils {
 
 //            Verificador del token
             JWTVerifier verifier = JWT.require(algorithm) //debemos saber el algorithmo con el que se encripto
-                    .withIssuer(userGenerator) //necesitamos saber quien genero el token(este caso: backend)
+                    .withIssuer(this.userGenerator) //necesitamos saber quien genero el token(este caso: backend)
                     .build();
 
-//            Devolver el token decodificado si todo salio bien
+//            Devolver el token decodificado si  salio bien
             DecodedJWT decodedJWT = verifier.verify(token);
             return decodedJWT;
 //            devolver la excepcion si no fue exitoso
@@ -88,8 +88,10 @@ public class JwtUtils {
 
 //    Obtener un atributo especifico
     public Claim getSpecificClaim(DecodedJWT decodedJWT, String claimName){
-    return decodedJWT.getHeaderClaim(claimName);
+//    return decodedJWT.getHeaderClaim(claimName);
+        return decodedJWT.getClaim(claimName);
     }
+
 
 //    Obtener todos los atributos del token
     public Map<String, Claim> returnAllClaims(DecodedJWT decodedJWT){
