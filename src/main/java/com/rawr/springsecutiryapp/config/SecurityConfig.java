@@ -1,7 +1,9 @@
 package com.rawr.springsecutiryapp.config;
 
 
+import com.rawr.springsecutiryapp.config.filter.JwtTokenValidator;
 import com.rawr.springsecutiryapp.service.UserDetailsServiceImpl;
+import com.rawr.springsecutiryapp.util.JwtUtils;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +28,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 //@EnableMethodSecurity //Optional(VALIDACION A NIVLE DE METODO)
 public class SecurityConfig {
 
-// Puntero: 1h 2 min
+    private final JwtUtils jwtUtils;
+
+
 //    SESCURITY FILTER SIN ANOTACIONES(RECOMENDADO)
 // El SecurityFilterChain es el primer metodo que debemos implementar
 //    Aqui defininmos toda la cadena de filtros personalizada
@@ -68,6 +74,9 @@ public class SecurityConfig {
 //                    Deny all= denegar lo demas / authenticated = authenticarse
                     http.anyRequest().denyAll();
                 })
+//                Ejecutar filtro de JwtTokenValidator antes que el Filtro de Authenticacion
+//                Es muy importante que este filtro se valide antes que el AuthenticationFilter
+                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
     }
 
