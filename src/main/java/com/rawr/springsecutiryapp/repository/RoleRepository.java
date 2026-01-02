@@ -11,5 +11,5 @@ public interface RoleRepository extends CrudRepository<RoleEntity, Long> {
 
 //    Buscar roles mediante lista de Strings
 //    asi nos aseguramos de que siempre existan roles
-    List<RoleEntity> findRoleEntitiesByRoleEnum(List<String> roleNames);
+    List<RoleEntity> findRoleEntitiesByRoleEnumIn(List<String> roleNames);
 }
