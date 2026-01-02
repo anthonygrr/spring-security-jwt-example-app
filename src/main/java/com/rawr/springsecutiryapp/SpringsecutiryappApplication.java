@@ -47,17 +47,17 @@ public class SpringsecutiryappApplication {
                     .build();
 
             RoleEntity roleUser = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ADMIN)
+                    .roleEnum(RoleEnum.USER)
                     .permissionList(Set.of(createPermission, readPermission))
                     .build();
 
             RoleEntity roleInvited = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ADMIN)
+                    .roleEnum(RoleEnum.INVITED)
                     .permissionList(Set.of(readPermission))
                     .build();
 
             RoleEntity roleDeveloper = RoleEntity.builder()
-                    .roleEnum(RoleEnum.ADMIN)
+                    .roleEnum(RoleEnum.DEVELOPER)
                     .permissionList(Set.of(createPermission, readPermission, refactorPermission, deletePermission))
                     .build();
 
